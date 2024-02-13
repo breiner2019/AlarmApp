@@ -16,6 +16,7 @@ import java.util.List;
 public class AlarmViewModel extends AndroidViewModel {
     private AlarmDrugRepository  repository;
     private LiveData<List<AlarmDrugs>> allAlarm;
+    private List<AlarmDrugs> allAlarmx;
     private LiveData<List<Drugs>> allDrugs;
 
     public AlarmViewModel(@NonNull Application application) {

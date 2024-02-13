@@ -7,17 +7,28 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="409dp"
-        android:layout_height="729dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <Button
+        android:id="@+id/xxbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Eliminar Alarmas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/recycleview"/>
+        android:onClick="Deleteall"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleview"
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/xxbtn"
+         />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

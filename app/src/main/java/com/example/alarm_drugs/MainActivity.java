@@ -41,20 +41,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements Escuchador{
     private TextView txtview;
-
     private static final String TAG = "MyActivity";
     private AlarmDrugs xx;
     public static final int LENGTH_SHORT = 0;
-
-    public AlarmViewModel Alarmviewmodel;
-
-
-
-
-
-
-
-
 
 
     @Override
@@ -74,25 +63,34 @@ public class MainActivity extends AppCompatActivity implements Escuchador{
         Alarmviewmodel.getAllAlarm().observe(this, new Observer<List<AlarmDrugs>>() {
             @Override
             public void onChanged(List<AlarmDrugs> alarmDrugs) {
-
-
             }
         });
         Alarmviewmodel.getAllDrugs().observe(this, new Observer<List<Drugs>>() {
             @Override
             public void onChanged(List<Drugs> drugs) {
-
-
                 adapter.setDrugs(drugs);
 
             }
         });
     }
 
+
     @Override
-    public void Alarma(AlarmDrugs alarm) {
+    public void InsertAlarma(AlarmDrugs alarm) {
         AlarmViewModel Alarmviewmodel = new ViewModelProvider((ViewModelStoreOwner) this, (ViewModelProvider.Factory) new ViewModelProvider.AndroidViewModelFactory(getApplication())).get(AlarmViewModel.class);;
         Alarmviewmodel.insert(alarm);
+    }
+
+    @Override
+    public void DeleteAlarma(AlarmDrugs alarm) {
+        AlarmViewModel Alarmviewmodel = new ViewModelProvider((ViewModelStoreOwner) this, (ViewModelProvider.Factory) new ViewModelProvider.AndroidViewModelFactory(getApplication())).get(AlarmViewModel.class);;
+        Alarmviewmodel.delete(alarm);
+
+    }
+
+    public void Deleteall(View view) {
+        AlarmViewModel Alarmviewmodel = new ViewModelProvider((ViewModelStoreOwner) this, (ViewModelProvider.Factory) new ViewModelProvider.AndroidViewModelFactory(getApplication())).get(AlarmViewModel.class);;
+        Alarmviewmodel.deleteallalarm();
     }
 }
 

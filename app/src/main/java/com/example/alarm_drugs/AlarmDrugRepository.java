@@ -69,15 +69,31 @@ public class AlarmDrugRepository {
 
     public void upgrade(AlarmDrugs alarmDrugs){
 
-        new UpdateAlarmDrugAsyncTask(alarmDrugsDao).execute(alarmDrugs);
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                alarmDrugsDao.Update(alarmDrugs);
+            }
+        });
+
     }
 
     public void delete(AlarmDrugs alarmDrugs){
-        new DeleteAlarmDrugAsyncTask(alarmDrugsDao).execute(alarmDrugs);
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                alarmDrugsDao.Delete(alarmDrugs);
+            }
+        });
     }
 
     public void deleteAllAlarm(){
-        new DeleteAllAlarmDrugAsyncTask(alarmDrugsDao).execute();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                alarmDrugsDao.deleteAllAlarm();
+            }
+        });
     }
 
     public LiveData<List<AlarmDrugs>> getAllAlarms (){

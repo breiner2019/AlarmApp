@@ -86,7 +86,7 @@ public abstract class AlarmDatabase extends RoomDatabase {
 
                         executor.execute(() -> {
                             //Background work here
-//                            Dao.InsertUser(user);
+                           Dao.InsertUser(user);
                             for (int i = 0; i < user.getHistoriaClinica().getRecetas().size(); i++) {
                                 Dao.InsertReceta(user.getHistoriaClinica().getRecetas().get(i));
                                 for (int a = 0; a < user.getHistoriaClinica().getRecetas().get(i).getMedicamentos().size(); a++) {

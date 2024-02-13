@@ -33,6 +33,7 @@ dependencies {
     implementation "com.android.support:support-compat:34.0.0"
 
     implementation 'androidx.media3:media3-common:1.2.1'
+    implementation 'androidx.lifecycle:lifecycle-service:2.7.0'
     def lifecycle_version = "2.5.0"
     def room_version = "2.5.0"
 

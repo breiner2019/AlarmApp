@@ -134,14 +134,18 @@ public class AlarmDrugs implements Serializable {
         Bundle bundle=new Bundle();
         Bundle bundlex=new Bundle();
         bundle.putSerializable(context.getString(R.string.arg_alarm_obj),this);
-        bundle.putSerializable(context.getString(R.string.arg_alarm_objx),drugs);
+        bundlex.putSerializable(context.getString(R.string.arg_alarm_objx),drugs);
         intent.putExtra(context.getString(R.string.bundle_alarm_obj),bundle);
         intent.putExtra(context.getString(R.string.bundle_alarm_objx),bundlex);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, AlarmDrugsId, intent, PendingIntent.FLAG_MUTABLE);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP,System.currentTimeMillis() + time,alarmPendingIntent);
+        alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,System.currentTimeMillis() + time,alarmPendingIntent);
 
-
-
+    }
+    public void cancelAlarm(Context context) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlarmBrodcastReceiver.class);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, AlarmDrugsId, intent, PendingIntent.FLAG_MUTABLE);
+        alarmManager.cancel(alarmPendingIntent);
     }
 
 

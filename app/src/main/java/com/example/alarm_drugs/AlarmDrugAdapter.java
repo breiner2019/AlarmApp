@@ -1,7 +1,5 @@
 package com.example.alarm_drugs;
 
-import android.content.Context;
-import android.location.GnssAntennaInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +46,13 @@ public class AlarmDrugAdapter extends RecyclerView.Adapter<AlarmDrugAdapter.View
         Drugs drug = mDrugs.get(position);
         holder.txt1.setText(drug.getNombre());
         holder.txt2.setText(drug.getContraindicacciones());
+        holder.card.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                escuchador.DeleteAlarma(mAlarm);
+                return false;
+            }
+        });
 
 
         holder.card.setOnClickListener(new View.OnClickListener() {
@@ -60,9 +65,7 @@ public class AlarmDrugAdapter extends RecyclerView.Adapter<AlarmDrugAdapter.View
                 mAlarm.setId_drugs(drug.getId());
                 mAlarm.setTime(drug.getTiempo());
                 mAlarm.schedule(v.getContext(),drug);
-                escuchador.Alarma(mAlarm);
-
-
+                escuchador.InsertAlarma(mAlarm);
             }
         });
 

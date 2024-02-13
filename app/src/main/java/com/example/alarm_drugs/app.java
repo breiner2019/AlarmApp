@@ -37,7 +37,6 @@ public class app extends Application {
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
-            Log.e(TAG,"Creado Chanel");
         }
     }
 }
