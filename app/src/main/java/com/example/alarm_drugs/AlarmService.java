@@ -31,7 +31,7 @@ import java.util.List;
 public class AlarmService  extends Service {
 
     AlarmDrugs Alarm;
-    Drugs Drug;
+
 
 
     @Override
@@ -68,16 +68,14 @@ public class AlarmService  extends Service {
 
         } else {
             Bundle bundle = intent.getBundleExtra(getString(R.string.bundle_alarm_obj));
-            Bundle bundlex = intent.getBundleExtra(getString(R.string.bundle_alarm_objx));
 
-            if (bundle != null && bundlex != null)
+            if (bundle != null )
                 Alarm = (AlarmDrugs) bundle.getSerializable(getString(R.string.arg_alarm_obj));
-                Drug = (Drugs) bundlex.getSerializable(getString(R.string.arg_alarm_objx));
             String toastText = String.format("Alarm Received en el service");
             Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
             if (Alarm != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    String CHANNEL_IDx = Drug.getNombre();
+                    String CHANNEL_IDx = Alarm.getDrug().getNombre();
 
                     CharSequence name = "x";
                     String description = "x";
@@ -94,7 +92,7 @@ public class AlarmService  extends Service {
 
                 NotificationCompat.Builder buidel = new NotificationCompat.Builder(this, CHANNEL_IDx)
                         .setSmallIcon(R.drawable.ic_launcher_foreground)
-                        .setContentTitle("Breiner tu medicina " + Drug.getNombre())
+                        .setContentTitle("Breiner tu medicina " + Alarm.getDrug().getNombre())
                         .setContentText("Recuerda que tomar tu medicina a tiempo es vital para el cumplimiento del tratamiento")
                         .setAutoCancel(true)
                         .setDefaults(NotificationCompat.DEFAULT_ALL)

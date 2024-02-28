@@ -1,8 +1,13 @@
 package com.example.alarm_drugs;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,25 +17,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.alarm_drugs.Clases.Drugs;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class AlarmDrugAdapter extends RecyclerView.Adapter<AlarmDrugAdapter.ViewHolder> {
-    List<Drugs> mDrugs = new ArrayList<>();
-    AlarmDrugs mAlarm = new AlarmDrugs();
+    List<AlarmDrugs> mListAlarms = new ArrayList<>();
+
+    private static final String TAG = "Adapter";
     private Escuchador escuchador;
 
     public AlarmDrugAdapter( Escuchador escuchador) {
-        this.mDrugs = mDrugs;
-        this.mAlarm = mAlarm;
+       ;
+        this.mListAlarms = mListAlarms;
         this.escuchador = escuchador;
     }
 
-    public void setDrugs (List<Drugs> drugs){
-        this.mDrugs = drugs;
 
+    public void setAlarms (List<AlarmDrugs> Alarms){
+        this.mListAlarms = Alarms;
         notifyDataSetChanged();
     }
+    public void DeleteItem(int position){
+        notifyItemRemoved(position);
+    }
+
+
+
 
     @NonNull
     @Override
@@ -41,15 +56,63 @@ public class AlarmDrugAdapter extends RecyclerView.Adapter<AlarmDrugAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AlarmDrugAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AlarmDrugAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        Drugs drug = mDrugs.get(position);
-        holder.txt1.setText(drug.getNombre());
-        holder.txt2.setText(drug.getContraindicacciones());
+        AlarmDrugs CurrentAlarm = mListAlarms.get(position);
+        holder.nombretxtview.setText(CurrentAlarm.getDrug().getNombre());
+        holder.codetxtview.setText(CurrentAlarm.getDrug().getCodigo());
+        holder.grtxtview.setText(CurrentAlarm.getDrug().getCantidad());
+
+        if(CurrentAlarm.isStarted()){
+            holder.Actived();
+            holder.CountTimer(CurrentAlarm.getTimestart()-System.currentTimeMillis());
+            holder.stateimage.setImageResource(R.drawable.circle);
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a ");
+            String currentDateAndTime = sdf.format(new Date(CurrentAlarm.getTimestart()));
+            holder.timestart.setText("Hora: "+currentDateAndTime);
+            holder.timetxtview.setVisibility(View.VISIBLE);
+            holder.SecTxtview.setVisibility(View.VISIBLE);
+            holder.timestart.setVisibility(View.VISIBLE);
+            holder.Inactivatxtview.setVisibility(View.INVISIBLE);
+            switch (CurrentAlarm.getDrug().getTipo()) {
+                case "inyeccion":
+                    holder.imagenview.setImageResource(R.drawable.injection);
+                    break;
+                case "GEL":
+                    holder.imagenview.setImageResource(R.drawable.tube);
+                    break;
+                case "pastillas":
+                    holder.imagenview.setImageResource(R.drawable.pill_1);
+                    break;
+            }
+
+
+        }else{
+            holder.noActived();
+            holder.Inactivatxtview.setVisibility(View.VISIBLE);
+            holder.timetxtview.setVisibility(View.INVISIBLE);
+            holder.SecTxtview.setVisibility(View.INVISIBLE);
+            holder.timestart.setVisibility(View.INVISIBLE);
+            holder.stateimage.setImageResource(R.drawable.circle_red);
+            switch (CurrentAlarm.getDrug().getTipo()) {
+                case "inyeccion":
+                    holder.imagenview.setImageResource(R.drawable.injection_noactive);
+                    break;
+                case "GEL":
+                    holder.imagenview.setImageResource(R.drawable.tube);
+                    break;
+                case "pastillas":
+                    holder.imagenview.setImageResource(R.drawable.pill_noactive);
+                    break;
+            }
+
+
+        }
         holder.card.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                escuchador.DeleteAlarma(mAlarm);
+                escuchador.DeleteAlarma(CurrentAlarm,position);
+                DeleteItem(position);
                 return false;
             }
         });
@@ -58,35 +121,104 @@ public class AlarmDrugAdapter extends RecyclerView.Adapter<AlarmDrugAdapter.View
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), drug.getNombre(),Toast.LENGTH_SHORT).show();
-                mAlarm.setStarted(true);
-                mAlarm.setCantidad(drug.getTotal());
-                mAlarm.setAlarmDrugsId(drug.getId());
-                mAlarm.setId_drugs(drug.getId());
-                mAlarm.setTime(drug.getTiempo());
-                mAlarm.schedule(v.getContext(),drug);
-                escuchador.InsertAlarma(mAlarm);
+                Toast.makeText(v.getContext(), CurrentAlarm.getDrug().getNombre(),Toast.LENGTH_SHORT).show();
+                CurrentAlarm.setStarted(true);
+                CurrentAlarm.schedule(v.getContext());
+                escuchador.UpdateAlarma(CurrentAlarm,position);
+                holder.CountTimer(CurrentAlarm.getTimestart()-System.currentTimeMillis());
+                holder.Inactivatxtview.setVisibility(View.INVISIBLE);
+
             }
         });
+
+
+
+
+
+
+
 
     }
 
     @Override
     public int getItemCount() {
-        return mDrugs.size();
+        return mListAlarms.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txt1;
-        TextView txt2;
+        TextView nombretxtview;
+        TextView epstxtview;
+        TextView timetxtview;
+        TextView Inactivatxtview;
+        TextView SecTxtview;
+        TextView timestart;
+        TextView codetxtview;
+        TextView grtxtview;
         CardView card;
+        ImageView imagenview;
+        ImageView stateimage;
+
+        CountDownTimer timer;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             card = itemView.findViewById(R.id.cardview);
-            txt1 = itemView.findViewById(R.id.text1);
-            txt2 = itemView.findViewById(R.id.text2);
+            nombretxtview = itemView.findViewById(R.id.nametxtview);
+            timetxtview = itemView.findViewById(R.id.timetxtview2);
+            SecTxtview = itemView.findViewById(R.id.secstxtview2);
+            codetxtview = itemView.findViewById(R.id.codetxtview);
+            grtxtview = itemView.findViewById(R.id.grtxtview);
+            Inactivatxtview = itemView.findViewById(R.id.Estado_Inactivo_textview);
+            imagenview =  itemView.findViewById(R.id.image);
+            stateimage = itemView.findViewById(R.id.image_stated);
+            timestart=itemView.findViewById(R.id.timestar_textview);
+            epstxtview=itemView.findViewById(R.id.epstextview);
+        }
+
+        public void CountTimer(Long Timestar){
+            SecTxtview.setVisibility(View.VISIBLE);
+
+            new CountDownTimer(Timestar, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    int seconds = (int) (millisUntilFinished / 1000) % 60 ;
+                    int minutes = (int) ((millisUntilFinished / (1000*60)) % 60);
+                    int hours   = (int) ((millisUntilFinished / (1000*60*60)) % 24);
+                    timetxtview.setText( "Restante: "+hours+ ":"+minutes);
+                    SecTxtview.setText( String.valueOf(seconds));
+
+
+
+                }
+
+                @Override
+                public void onFinish() {
+
+
+                }
+            }.start();
+        }
+        public void noActived (){
+
+            nombretxtview.setTextColor(Color.rgb(170,170,170));
+            timetxtview.setTextColor(Color.rgb(170,170,170));
+            Inactivatxtview.setTextColor(Color.rgb(170,170,170));
+            SecTxtview.setTextColor(Color.rgb(170,170,170));
+            timestart.setTextColor(Color.rgb(170,170,170));
+            codetxtview.setTextColor(Color.rgb(170,170,170));
+            grtxtview.setTextColor(Color.rgb(170,170,170));
+            epstxtview.setTextColor(Color.rgb(170,170,170));
+        }
+        public void Actived (){
+            nombretxtview.setTextColor(Color.rgb(255,255,255));
+            timetxtview.setTextColor(Color.rgb(255,255,255));
+            Inactivatxtview.setTextColor(Color.rgb(255,255,255));
+            SecTxtview.setTextColor(Color.rgb(255,255,255));
+            timestart.setTextColor(Color.rgb(255,255,255));
+            codetxtview.setTextColor(Color.rgb(255,255,255));
+            grtxtview.setTextColor(Color.rgb(255,255,255));
+            epstxtview.setTextColor(Color.rgb(255,255,255));
         }
 
     }

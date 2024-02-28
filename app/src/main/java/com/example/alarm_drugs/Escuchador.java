@@ -3,8 +3,8 @@ package com.example.alarm_drugs;
 
 public interface Escuchador {
 
-    void InsertAlarma(AlarmDrugs alarm);
+    void UpdateAlarma(AlarmDrugs alarm, int position);
 
-    void DeleteAlarma(AlarmDrugs alarm);
+    void DeleteAlarma(AlarmDrugs alarm,int position);
 
 }

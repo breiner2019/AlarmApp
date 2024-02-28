@@ -37,23 +37,28 @@ public class AlarmDrugs implements Serializable {
     @PrimaryKey 
     private int AlarmDrugsId;
     private int cantidad;
-    private int Id_drugs;
+    private Drugs drug;
     private boolean Started;
     long time;
     long timestart;
 
 
+    public Drugs getDrug() {
+        return drug;
+    }
 
-
+    public void setDrug(Drugs drug) {
+        this.drug = drug;
+    }
 
     public void setTime(long time) {
-        this.time = 600*time;
+        this.time = time;
     }
 
 
 
     public void setTimestart(long timestart) {
-        this.timestart = System.currentTimeMillis()+timestart;
+        this.timestart = timestart;
     }
 
     public int getCantidad() {
@@ -70,9 +75,6 @@ public class AlarmDrugs implements Serializable {
 
 
 
-    public void setId_drugs(int id_drugs) {
-        Id_drugs = id_drugs;
-    }
 
     public void setStarted(boolean started) {
         Started = started;
@@ -92,9 +94,6 @@ public class AlarmDrugs implements Serializable {
     public long getTimestart() {
         return timestart;
     }
-    public int getId_drugs() {
-        return Id_drugs;
-    }
 
     public boolean isStarted() {
         return Started;
@@ -106,37 +105,25 @@ public class AlarmDrugs implements Serializable {
 
 
         @TypeConverter
-        public Acudiente fromStringAcudiente (String value) {
-            return new Gson().fromJson(value, Acudiente.class);
+        public Drugs fromStringDrug (String value) {
+            return new Gson().fromJson(value, Drugs.class);
         }
 
         @TypeConverter
-        public String fromAcudiente (Acudiente Acudiente) {
-            return new Gson().toJson(Acudiente);
+        public String fromDrugs(Drugs drug) {
+            return new Gson().toJson(drug);
         }
 
-        @TypeConverter
-        public HistoriaClinica fromStringHistoria (String value) {
-            return new Gson().fromJson(value, HistoriaClinica.class);
-        }
 
-        @TypeConverter
-        public String fromHistoria (HistoriaClinica HistoriaClinica) {
-            return new Gson().toJson(HistoriaClinica);
-        }
     }
 
-    public  void schedule(Context context, Drugs drugs){
-
-        setTimestart(time);
+    public  void schedule(Context context ){
+        setTimestart(time+System.currentTimeMillis());
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmBrodcastReceiver.class);
         Bundle bundle=new Bundle();
-        Bundle bundlex=new Bundle();
         bundle.putSerializable(context.getString(R.string.arg_alarm_obj),this);
-        bundlex.putSerializable(context.getString(R.string.arg_alarm_objx),drugs);
         intent.putExtra(context.getString(R.string.bundle_alarm_obj),bundle);
-        intent.putExtra(context.getString(R.string.bundle_alarm_objx),bundlex);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, AlarmDrugsId, intent, PendingIntent.FLAG_MUTABLE);
         alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,System.currentTimeMillis() + time,alarmPendingIntent);
 

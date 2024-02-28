@@ -32,7 +32,7 @@ import java.util.concurrent.Executors;
 public class RescheduleAlarmService extends LifecycleService {
 
     AlarmDrugs Alarm;
-    Drugs Drug;
+
 
     AlarmDrugRepository repository;
     private static final String TAG = "RESCHEDULE";
@@ -70,11 +70,9 @@ public class RescheduleAlarmService extends LifecycleService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
         Bundle bundle = intent.getBundleExtra(getString(R.string.bundle_alarm_obj));
-        Bundle bundlex = intent.getBundleExtra(getString(R.string.bundle_alarm_objx));
 
-        if (bundle != null && bundlex != null)
+        if (bundle != null)
             Alarm = (AlarmDrugs) bundle.getSerializable(getString(R.string.arg_alarm_obj));
-            Drug = (Drugs) bundlex.getSerializable(getString(R.string.arg_alarm_objx));
 
         if (Alarm != null) {
             repository.getAllAlarms().observe(this, new Observer<List<AlarmDrugs>>() {
@@ -83,20 +81,16 @@ public class RescheduleAlarmService extends LifecycleService {
                     for(int x=0; x<alarmDrugs.size(); x++){
                         if(alarmDrugs.get(x).getAlarmDrugsId()==Alarm.getAlarmDrugsId()){
                             Alarm.setCantidad(alarmDrugs.get(x).getCantidad()-1);
-
-
                         }
                     }
                 }
             });
             upgrade(Alarm);
 
-            String toastText = String.format("Reschedule en el service");
-            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
             if (Alarm.getCantidad() == 0) {
                 cancelAlarm(Alarm);
             }else {
-                ReSchedule(Alarm,Drug);
+                ReSchedule(Alarm);
 
             }
         }
@@ -104,22 +98,22 @@ public class RescheduleAlarmService extends LifecycleService {
         return START_STICKY;
     }
 
-    private void ReSchedule(AlarmDrugs alarm, Drugs drug) {
-        alarm.schedule(getApplicationContext(),drug);
+    private void ReSchedule(AlarmDrugs alarm) {
+        alarm.schedule(getApplicationContext());
 
     }
 
     public void upgrade(AlarmDrugs alarmDrugs){
 
         repository.upgrade(alarmDrugs);
-        Log.e(TAG, Drug.getNombre()+" update "  );
+        Log.e(TAG, alarmDrugs.getDrug().getNombre()+" update "  );
 
 
     }
     public void cancelAlarm(AlarmDrugs alarmx){
 
         alarmx.cancelAlarm(getApplicationContext());
-        Log.e(TAG, Drug.getNombre()+" Cancel "  );
+        Log.e(TAG, alarmx.getDrug().getNombre()+" Cancel "  );
 
     }
 

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".add_alarm"
+    android:background="@color/black">
+
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.82">
+
+        <EditText
+            android:id="@+id/EditText_Name"
+            android:layout_width="350dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:hint="Nombre"
+            android:inputType="text"
+            android:padding="8dp" />
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Selecione la presentacion"
+            android:textAlignment="center"
+            android:textColor="#a7a7a7"
+            android:textSize="20dp" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_button_jarabe"
+                android:layout_width="64dp"
+                android:layout_height="80dp"
+                android:background="@color/transparent"
+                android:button="@color/transparent"
+                android:drawableTop="@drawable/add_syrup_icon_select"
+                android:padding="5dp"
+
+                android:text="Jarabe"
+                android:textAlignment="center"
+                android:textColor="@drawable/text_add_select" />
+
+            <RadioButton
+
+                android:id="@+id/radio_button_crema"
+                android:layout_width="64dp"
+                android:layout_height="80dp"
+                android:background="@color/transparent"
+                android:button="@color/transparent"
+                android:drawableTop="@drawable/add_crema_icon_select"
+                android:padding="5dp"
+
+                android:text="Crema"
+                android:textAlignment="center"
+                android:textColor="@drawable/text_add_select" />
+
+
+            <RadioButton
+                android:id="@+id/radio_button_injection"
+                android:layout_width="76dp"
+                android:layout_height="80dp"
+
+                android:background="@color/transparent"
+                android:button="@color/transparent"
+                android:drawableTop="@drawable/add_injection_icon_select"
+                android:padding="5dp"
+                android:text="Inyección"
+                android:textAlignment="center"
+                android:textColor="@drawable/text_add_select"
+                android:textSize="14dp" />
+
+            <RadioButton
+                android:id="@+id/radio_button_gotas"
+                android:layout_width="64dp"
+                android:layout_height="80dp"
+                android:layout_marginRight="4dp"
+                android:background="@color/transparent"
+                android:button="@color/transparent"
+                android:drawableTop="@drawable/add_eyedrops_icon_select"
+                android:padding="8dp"
+                android:text="Gotas"
+                android:textAlignment="center"
+                android:textColor="@drawable/text_add_select" />
+
+            <RadioButton
+                android:id="@+id/radio_button_pill"
+                android:layout_width="70dp"
+                android:layout_height="80dp"
+                android:layout_marginRight="4dp"
+                android:background="@color/transparent"
+                android:button="@color/transparent"
+                android:drawableTop="@drawable/add_pill_icon_select"
+                android:padding="5dp"
+                android:text="Pastillas"
+                android:textAlignment="center"
+                android:textColor="@drawable/text_add_select" />
+
+            <RadioButton
+                android:id="@+id/radio_button_otros"
+                android:layout_width="60dp"
+                android:layout_height="80dp"
+                android:background="@color/transparent"
+                android:button="@color/transparent"
+                android:drawableTop="@drawable/add_other_icon_select"
+                android:padding="6dp"
+                android:text="Otros"
+                android:textAlignment="center"
+                android:textColor="@drawable/text_add_select" />
+
+        </RadioGroup>
+
+
+        <EditText
+            android:id="@+id/editTextText2"
+            android:layout_width="350dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:hint="Dosis"
+            android:inputType="text"
+            android:padding="8dp" />
+
+
+        <EditText
+            android:id="@+id/editTextText3"
+            android:layout_width="350dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:hint="Cantidad total de medicina"
+            android:inputType="text"
+            android:padding="8dp" />
+
+        <EditText
+            android:id="@+id/editTextText4"
+            android:layout_width="350dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:hint="Motivo del uso del farmaco"
+            android:inputType="text"
+            android:padding="8dp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.65999997">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Intervalo de tiempo" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <NumberPicker
+                android:id="@+id/numberpciker_hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:soundEffectsEnabled="true"></NumberPicker>
+
+            <NumberPicker
+                android:id="@+id/numberpciker_minute"
+                style="@style/NumberPickerTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></NumberPicker>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancelar" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Guardar" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

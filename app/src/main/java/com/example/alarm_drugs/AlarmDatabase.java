@@ -28,7 +28,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Database(entities = {AlarmDrugs.class, User.class, Drugs.class, Recetas.class}, version = 1)
-@TypeConverters({User.Converters.class})
+@TypeConverters({User.Converters.class,AlarmDrugs.Converters.class})
 public abstract class AlarmDatabase extends RoomDatabase {
 
     private static AlarmDatabase instance;
@@ -91,6 +91,13 @@ public abstract class AlarmDatabase extends RoomDatabase {
                                 Dao.InsertReceta(user.getHistoriaClinica().getRecetas().get(i));
                                 for (int a = 0; a < user.getHistoriaClinica().getRecetas().get(i).getMedicamentos().size(); a++) {
                                     Dao.InsertDrugs(user.getHistoriaClinica().getRecetas().get(i).getMedicamentos().get(a));
+                                    AlarmDrugs Alarma= new AlarmDrugs();
+                                    Alarma.setStarted(false);
+                                    Alarma.setCantidad(user.getHistoriaClinica().getRecetas().get(i).getMedicamentos().get(a).getTotal());
+                                    Alarma.setAlarmDrugsId(user.getHistoriaClinica().getRecetas().get(i).getMedicamentos().get(a).getId());
+                                    Alarma.setDrug(user.getHistoriaClinica().getRecetas().get(i).getMedicamentos().get(a));
+                                    Alarma.setTime((user.getHistoriaClinica().getRecetas().get(i).getMedicamentos().get(a).getTiempo())* 3600000L);
+                                    Dao.Insert(Alarma);
                                 }
                             }
 
